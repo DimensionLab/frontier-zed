@@ -1,0 +1,20 @@
+id = "frontier"
+name = "Frontier"
+version = "0.9.0"
+schema_version = 1
+authors = ["DimensionLab <oss@dimensionlab.org>"]
+description = "Frontier physics-ML files in Zed: JSON schemas for training configs, RunSpecs, data-prep recipes, pipelines, hub entries and plugin manifests; snippets; and the Frontier MCP context server (datasets, versions, provenance, data-prep ops) for the agent panel."
+repository = "https://github.com/DimensionLab/frontier-zed"
+
+# Snippet files are matched to languages by file name (json.json -> JSON, yaml.json -> YAML,
+# toml.json -> TOML). Frontier files keep Zed's built-in JSON/YAML languages and the TOML
+# extension's language on purpose: a custom language would detach them from
+# json-language-server / yaml-language-server, and with them the schema diagnostics.
+snippets = ["./snippets/json.json", "./snippets/yaml.json", "./snippets/toml.json"]
+
+# Opt-in icon theme ("Frontier Minimal"); see README, section "Icons".
+icon_themes = ["./icon_themes/frontier.json"]
+
+# The Frontier MCP server: `python -m frontier_agent mcp` over stdio. The command, interpreter
+# and arguments come from src/lib.rs and the user's `context_servers.frontier.settings`.
+[context_servers.frontier]

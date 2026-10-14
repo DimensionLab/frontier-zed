@@ -1,0 +1,6 @@
+target/
+# Zed writes the compiled extension here when it builds a dev extension in place.
+extension.wasm
+grammars/
+__pycache__/
+.pytest_cache/

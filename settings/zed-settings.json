@@ -1,0 +1,68 @@
+{
+  "lsp": {
+    "json-language-server": {
+      "settings": {
+        "json": {
+          "schemas": [
+            {
+              "fileMatch": ["*.recipe.json", "recipe.json"],
+              "url": "https://dimensionlab.org/schemas/recipe.schema.json"
+            },
+            {
+              "fileMatch": ["pipeline.json", "*.pipeline.json"],
+              "url": "https://dimensionlab.org/schemas/pipeline-v1.schema.json"
+            },
+            {
+              "fileMatch": ["*.runspec.json", "runspec.json"],
+              "url": "https://dimensionlab.org/schemas/runspec.schema.json"
+            },
+            {
+              "fileMatch": ["*.jobspec.json", "jobspec.json"],
+              "url": "https://dimensionlab.org/schemas/jobspec.schema.json"
+            },
+            {
+              "fileMatch": ["*.frontier.json", "*.train.json"],
+              "url": "https://dimensionlab.org/schemas/frontier-train-config.schema.json"
+            },
+            {
+              "fileMatch": ["*.hub.json"],
+              "url": "https://dimensionlab.org/schemas/hub-entry.schema.json"
+            }
+          ]
+        }
+      }
+    },
+    "yaml-language-server": {
+      "settings": {
+        "yaml": {
+          "schemas": {
+            "https://dimensionlab.org/schemas/frontier-train-config.schema.json": [
+              "*.frontier.yaml",
+              "*.frontier.yml",
+              "*.train.yaml",
+              "**/frontier-train/configs/*.yaml"
+            ],
+            "https://dimensionlab.org/schemas/runspec.schema.json": [
+              "*.runspec.yaml",
+              "*.runspec.yml",
+              "runspec.yaml"
+            ],
+            "https://dimensionlab.org/schemas/jobspec.schema.json": [
+              "*.jobspec.yaml",
+              "*.jobspec.yml",
+              "jobspec.yaml"
+            ],
+            "https://dimensionlab.org/schemas/hub-entry.schema.json": [
+              "*.hub.yaml",
+              "**/frontier_hub/catalog/*/*.yaml"
+            ],
+            "https://dimensionlab.org/schemas/benchmark-spec.schema.json": [
+              "*.benchmark.yaml",
+              "**/frontier_eval/benchmarks/*.yaml"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

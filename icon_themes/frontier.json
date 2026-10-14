@@ -1,0 +1,49 @@
+{
+  "$schema": "https://zed.dev/schema/icon_themes/v0.3.0.json",
+  "name": "Frontier Minimal",
+  "author": "DimensionLab",
+  "themes": [
+    {
+      "name": "Frontier Minimal",
+      "appearance": "dark",
+      "directory_icons": {
+        "collapsed": "./icons/dir-collapsed.svg",
+        "expanded": "./icons/dir-expanded.svg"
+      },
+      "chevron_icons": {
+        "collapsed": "./icons/chevron-collapsed.svg",
+        "expanded": "./icons/chevron-expanded.svg"
+      },
+      "file_stems": {
+        "frontier.toml": "frontier-config",
+        "plugin.toml": "frontier-plugin",
+        "pipeline.json": "frontier-pipeline",
+        "runspec.yaml": "frontier-runspec",
+        "runspec.json": "frontier-runspec",
+        "jobspec.yaml": "frontier-runspec",
+        "recipe.json": "frontier-recipe"
+      },
+      "file_suffixes": {
+        "recipe.json": "frontier-recipe",
+        "pipeline.json": "frontier-pipeline",
+        "runspec.yaml": "frontier-runspec",
+        "runspec.json": "frontier-runspec",
+        "jobspec.yaml": "frontier-runspec",
+        "frontier.yaml": "frontier-train",
+        "train.yaml": "frontier-train",
+        "hub.yaml": "frontier-hub",
+        "benchmark.yaml": "frontier-hub"
+      },
+      "file_icons": {
+        "default": { "path": "./icons/file.svg" },
+        "frontier-config": { "path": "./icons/frontier-config.svg" },
+        "frontier-recipe": { "path": "./icons/frontier-recipe.svg" },
+        "frontier-pipeline": { "path": "./icons/frontier-pipeline.svg" },
+        "frontier-runspec": { "path": "./icons/frontier-runspec.svg" },
+        "frontier-train": { "path": "./icons/frontier-train.svg" },
+        "frontier-hub": { "path": "./icons/frontier-hub.svg" },
+        "frontier-plugin": { "path": "./icons/frontier-plugin.svg" }
+      }
+    }
+  ]
+}

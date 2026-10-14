@@ -1,0 +1,68 @@
+{
+  "Frontier data-prep recipe": {
+    "prefix": "frontier-recipe",
+    "description": "A frontier_prep recipe (recipe.schema.json): named steps of plan/preview/run ops, replayable with `frontier prep recipe run`",
+    "body": [
+      "{",
+      "  \"name\": \"${1:dataset}.recipe\",",
+      "  \"version\": \"1.0\",",
+      "  \"description\": \"${2:what this recipe fixes}\",",
+      "  \"steps\": [",
+      "    {",
+      "      \"op\": \"prep.fields.rename\",",
+      "      \"params\": {\"map\": {\"${3:old_name}\": \"${4:new_name}\"}},",
+      "      \"message\": \"${5:why}\",",
+      "      \"continue_on_fail\": false",
+      "    }$0",
+      "  ]",
+      "}"
+    ]
+  },
+  "Frontier recipe step": {
+    "prefix": "frontier-step",
+    "description": "One step of a frontier_prep recipe: op, params and the message recorded in provenance",
+    "body": [
+      "{",
+      "  \"op\": \"prep.units.convert\",",
+      "  \"params\": {\"conversions\": {\"${1:field}\": \"${2:Pa}\"}},",
+      "  \"message\": \"${3:why}\",",
+      "  \"continue_on_fail\": false",
+      "}$0"
+    ]
+  },
+  "Frontier canvas pipeline": {
+    "prefix": "frontier-pipeline",
+    "description": "A frontier-pipeline v1 document (pipeline-v1.schema.json): nodes with params and typed edges, as saved by the canvas and `frontier ingest`",
+    "body": [
+      "{",
+      "  \"format\": \"frontier-pipeline\",",
+      "  \"version\": 1,",
+      "  \"name\": \"${1:dataset-name}\",",
+      "  \"nodes\": [",
+      "    {\"id\": \"source\", \"kind\": \"${2:hf_source}\", \"params\": {$3}, \"inputs\": []},",
+      "    {\"id\": \"${4:read}\", \"kind\": \"${5:vtk_reader}\", \"params\": {}, \"inputs\": [\"source\"]}$0",
+      "  ],",
+      "  \"edges\": [",
+      "    {\"from\": \"source\", \"from_port\": \"out\", \"to\": \"${4:read}\", \"to_port\": \"in\"}",
+      "  ]",
+      "}"
+    ]
+  },
+  "Frontier RunSpec (JSON)": {
+    "prefix": "frontier-runspec",
+    "description": "A frontier.run/v1 RunSpec in JSON (runspec.schema.json); the YAML form is the usual one",
+    "body": [
+      "{",
+      "  \"apiVersion\": \"frontier.run/v1\",",
+      "  \"kind\": \"Run\",",
+      "  \"name\": \"${1:run-name}\",",
+      "  \"task\": \"${2|train,ingest,eval,predict,pipeline,hub-pull|}\",",
+      "  \"config\": \"${3:configs/train.yaml}\",",
+      "  \"overrides\": [$4],",
+      "  \"resources\": {\"gpus\": ${5:1}, \"gpu_type\": \"${6:any}\", \"cpus\": ${7:8}, \"memory_gb\": ${8:32}, \"time_limit\": \"${9:2h}\"},",
+      "  \"retries\": 0,",
+      "  \"smoke\": false$0",
+      "}"
+    ]
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "lsp": {
+    "json-language-server": {
+      "settings": {
+        "json": {
+          "schemas": [
+            {
+              "fileMatch": ["*.recipe.json", "recipe.json"],
+              "url": "./tools/frontier-zed/schemas/recipe.schema.json"
+            },
+            {
+              "fileMatch": ["pipeline.json", "*.pipeline.json"],
+              "url": "./tools/frontier-zed/schemas/pipeline-v1.schema.json"
+            },
+            {
+              "fileMatch": ["*.runspec.json", "runspec.json"],
+              "url": "./tools/frontier-zed/schemas/runspec.schema.json"
+            },
+            {
+              "fileMatch": ["*.jobspec.json", "jobspec.json"],
+              "url": "./tools/frontier-zed/schemas/jobspec.schema.json"
+            },
+            {
+              "fileMatch": ["*.frontier.json", "*.train.json"],
+              "url": "./tools/frontier-zed/schemas/frontier-train-config.schema.json"
+            },
+            {
+              "fileMatch": ["*.hub.json"],
+              "url": "./tools/frontier-zed/schemas/hub-entry.schema.json"
+            }
+          ]
+        }
+      }
+    },
+    "yaml-language-server": {
+      "settings": {
+        "yaml": {
+          "schemas": {
+            "./tools/frontier-zed/schemas/frontier-train-config.schema.json": [
+              "*.frontier.yaml",
+              "*.frontier.yml",
+              "*.train.yaml",
+              "**/frontier-train/configs/*.yaml"
+            ],
+            "./tools/frontier-zed/schemas/runspec.schema.json": [
+              "*.runspec.yaml",
+              "*.runspec.yml",
+              "runspec.yaml"
+            ],
+            "./tools/frontier-zed/schemas/jobspec.schema.json": [
+              "*.jobspec.yaml",
+              "*.jobspec.yml",
+              "jobspec.yaml"
+            ],
+            "./tools/frontier-zed/schemas/hub-entry.schema.json": [
+              "*.hub.yaml",
+              "**/frontier_hub/catalog/*/*.yaml"
+            ],
+            "./tools/frontier-zed/schemas/benchmark-spec.schema.json": [
+              "*.benchmark.yaml",
+              "**/frontier_eval/benchmarks/*.yaml"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

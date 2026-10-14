@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Frontier context server settings",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "python": {
+      "type": "string",
+      "description": "Interpreter with the frontier-agent package installed. Resolved on PATH when not absolute. Default: python3."
+    },
+    "datasets_dir": {
+      "type": "string",
+      "description": "Directory where dataset names resolve (passed as --datasets-dir)."
+    },
+    "record": {
+      "type": "string",
+      "description": "Session record file the server appends every call to (passed as --record)."
+    },
+    "approver": {
+      "type": "string",
+      "enum": ["none", "ui", "auto"],
+      "default": "none",
+      "description": "Approval mode (--approver). none: writes are refused unless the site policy grants autonomy. ui: the server trusts the client to have asked a person (Zed has no such handler; do not use). auto: every approval granted (tests only)."
+    },
+    "extra_args": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": [],
+      "description": "Extra arguments appended after `mcp`."
+    },
+    "env": {
+      "type": "object",
+      "additionalProperties": { "type": "string" },
+      "default": {},
+      "description": "Environment variables for the server process (FRONTIER_DATASETS_DIR, FRONTIER_POLICY__AI_*, FRONTIER_HOME, ...)."
+    }
+  }
+}

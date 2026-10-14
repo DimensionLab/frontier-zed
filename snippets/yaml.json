@@ -1,0 +1,160 @@
+{
+  "Frontier training config (surface)": {
+    "prefix": "frontier-train",
+    "description": "A frontier_train surface/finetune config (frontier-train-config.schema.json): data, model, optim, loss, logging, train",
+    "body": [
+      "task: ${1|surface,finetune,finetune-compare|}",
+      "data:",
+      "  path: ${2:datasets/ahmedml-40}",
+      "  lod: ${3:1}",
+      "  target_field: ${4:pMean}",
+      "  num_points: ${5:8192}",
+      "  batch_size: ${6:2}",
+      "model:",
+      "  name: ${7:pointmlp}",
+      "  params: {$8}",
+      "optim: {lr: ${9:2.0e-4}, weight_decay: ${10:0.02}, warmup_steps: ${11:200}, grad_clip: 1.0}",
+      "loss: {p_weight: 1.0, cd_weight: ${12:0.5}}",
+      "logging: {project: ${13:project}, run_name: ${14:run}, tags: [$15]}",
+      "train:",
+      "  epochs: ${16:100}",
+      "  seed: 0",
+      "  device: auto",
+      "  amp: true",
+      "  out_dir: ${17:runs/${14:run}}",
+      "  val_every: ${18:10}$0"
+    ]
+  },
+  "Frontier training config (transient)": {
+    "prefix": "frontier-train-transient",
+    "description": "A frontier_train transient (rollout) config: `task: transient` selects the transient branch of the schema",
+    "body": [
+      "task: transient",
+      "data:",
+      "  path: ${1:datasets/mgn-cylinder-flow}",
+      "  ${2:# transient data options (history, horizon, ...)}",
+      "model:",
+      "  name: ${3:meshgraphnet}",
+      "  params: {$4}",
+      "optim: {lr: ${5:1.0e-4}}",
+      "logging: {project: ${6:project}, run_name: ${7:run}}",
+      "train:",
+      "  epochs: ${8:50}",
+      "  seed: 0",
+      "  out_dir: ${9:runs/${7:run}}$0"
+    ]
+  },
+  "Frontier RunSpec": {
+    "prefix": "frontier-runspec",
+    "description": "A frontier.run/v1 RunSpec (runspec.schema.json) for `frontier run -f`: task, config, datasets, resources, image",
+    "body": [
+      "apiVersion: frontier.run/v1",
+      "kind: Run",
+      "name: ${1:run-name}",
+      "task: ${2|train,ingest,eval,predict,pipeline,hub-pull|}",
+      "config: ${3:configs/train.yaml}",
+      "overrides: [${4:optim.lr=5e-4}]",
+      "datasets:",
+      "  - path: ${5:datasets/ahmedml-40}",
+      "    source: {type: ${6|auto,existing,upload,hub,ingest,pipeline|}}",
+      "resources: {gpus: ${7:1}, gpu_type: ${8:any}, cpus: ${9:8}, memory_gb: ${10:32}, disk_gb: ${11:20}, time_limit: ${12:2h}}",
+      "image: ${13:registry.example.com/frontier-trainer:<version>}",
+      "env: {}",
+      "checkpoint: {resume: true, sync_every_s: 120}",
+      "retries: ${14:0}",
+      "smoke: false$0"
+    ]
+  },
+  "Frontier pipeline RunSpec": {
+    "prefix": "frontier-runspec-pipeline",
+    "description": "A frontier.run/v1 RunSpec with `task: pipeline` and ingest -> train -> eval steps",
+    "body": [
+      "apiVersion: frontier.run/v1",
+      "kind: Run",
+      "name: ${1:pipeline-name}",
+      "task: pipeline",
+      "steps:",
+      "  - {task: ingest, overrides: [${2:runs=1-40}, out=${3:datasets/ahmedml-40}]}",
+      "  - {task: train, config: ${4:configs/train.yaml}}",
+      "  - {task: eval, overrides: [\"checkpoint=\\${out_dir}/best.pt\", dataset=${3:datasets/ahmedml-40}, \"out=\\${out_dir}/eval\"]}$0"
+    ]
+  },
+  "Frontier JobSpec": {
+    "prefix": "frontier-jobspec",
+    "description": "A frontier-cloud JobSpec (jobspec.schema.json): image, command, resources, mounts, backend",
+    "body": [
+      "name: ${1:job-name}",
+      "image: ${2:registry.example.com/frontier-trainer:<version>}",
+      "command: [${3:python, -m, frontier_train, --config, config.yaml}]",
+      "env: {}",
+      "resources: {gpus: ${4:1}, gpu_type: ${5:any}, cpus: ${6:8}, memory_gb: ${7:32}}",
+      "mounts: []",
+      "backend: ${8|local,runpod,anyscale,slurm,k8s|}$0"
+    ]
+  },
+  "Frontier hub entry": {
+    "prefix": "frontier-hub-entry",
+    "description": "A hub catalog entry (hub-entry.schema.json): dataset, benchmark, collection or model with licence, physics and sources",
+    "body": [
+      "id: ${1:dataset-id}",
+      "name: ${2:Dataset name}",
+      "kind: ${3|dataset,benchmark,collection,model|}",
+      "domain: ${4|cfd,structural,thermal,multiphysics,materials,geophysical,other|}",
+      "summary: >-",
+      "  ${5:One paragraph: what was simulated, how, and what the samples contain.}",
+      "organization: ${6:Who published it}",
+      "year: ${7:2024}",
+      "tags: [${8:external-aero, surface, 3d}]",
+      "physics:",
+      "  equations: [${9:incompressible-ns}]",
+      "  fidelity: ${10:hybrid-rans-les}",
+      "  temporal: ${11|steady,transient|}",
+      "  dims: ${12:3}",
+      "license:",
+      "  spdx: ${13:CC-BY-SA-4.0}",
+      "  commercial_use: ${14:true}",
+      "  url: ${15:https://creativecommons.org/licenses/by-sa/4.0/}",
+      "homepage: ${16:https://}",
+      "access: ${17|open,registration,request|}",
+      "status: listed$0"
+    ]
+  },
+  "Frontier benchmark spec": {
+    "prefix": "frontier-benchmark",
+    "description": "A frontier_eval benchmark spec (benchmark-spec.schema.json): task, metrics, thresholds, tiers, references",
+    "body": [
+      "name: ${1:benchmark-id}",
+      "title: ${2:Benchmark title}",
+      "dataset_family: ${3:ahmedml}",
+      "task: ${4|surface_field,integral,rollout|}",
+      "split: test",
+      "metrics: [${5:mae, rel_err, r2}]",
+      "primary_metric: ${6:rel_err}",
+      "metric_prefix: ${7:test/cd}",
+      "thresholds:",
+      "  ${6:rel_err}: {max: ${8:0.05}, aggregate: value}",
+      "tiers:",
+      "  state-of-the-art: ${9:0.01}",
+      "  strong: ${10:0.03}",
+      "  acceptable: ${8:0.05}",
+      "reference: []",
+      "status: ${11|implemented,spec-only|}$0"
+    ]
+  },
+  "Frontier site profile": {
+    "prefix": "frontier-site",
+    "description": "A site profile for `frontier run --on ssh|slurm` (~/.frontier/sites/<name>.yaml); validated by `frontier sites`, no JSON schema yet",
+    "body": [
+      "name: ${1:mycluster}",
+      "transport: {kind: ${2|ssh,docker,command,local|}, host: ${3:login.hpc.example.org}, user: ${4:jdoe}}",
+      "workdir: ${5:/scratch/project/frontier}",
+      "runtime: ${6|uv,pyxis,apptainer,docker,none|}",
+      "account: ${7:ACCOUNT}",
+      "partition: ${8:gpu}",
+      "time: \"${9:04:00:00}\"",
+      "gres: gpu:1",
+      "modules: []",
+      "env: {}$0"
+    ]
+  }
+}

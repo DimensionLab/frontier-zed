@@ -1,0 +1,12 @@
+{
+  // Interpreter with frontier-agent installed. Default: python3 on PATH.
+  "python": "python3",
+  // Where dataset names resolve. Default: the server's own rule (FRONTIER_DATASETS_DIR, ./datasets).
+  // "datasets_dir": "/path/to/datasets",
+  // Session record the server appends every call to.
+  // "record": "~/.frontier/agent-sessions/zed.jsonl",
+  // none (writes refused unless policy grants autonomy) | ui | auto. Keep none in Zed.
+  "approver": "none",
+  "extra_args": [],
+  "env": {}
+}

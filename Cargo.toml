@@ -1,0 +1,22 @@
+[package]
+name = "frontier-zed"
+version = "0.9.0"
+edition = "2024"
+license = "Apache-2.0"
+description = "Zed extension for DimensionLab Frontier: schemas, snippets and the Frontier MCP context server"
+repository = "https://github.com/DimensionLab/frontier-zed"
+
+[lib]
+path = "src/lib.rs"
+crate-type = ["cdylib"]
+
+[dependencies]
+# Verified against crates.io on 2026-10-11: 0.7.0 is the newest published release.
+zed_extension_api = "0.7.0"
+serde = { version = "1", features = ["derive"] }
+
+# This crate is a Zed extension compiled to wasm32-wasip2 by Zed itself. It is deliberately
+# not a member of the monorepo workspace (the root `members` list covers apps/* and crates/*),
+# so it builds with its own lock file and target:
+#   cargo build --manifest-path tools/frontier-zed/Cargo.toml --release --target wasm32-wasip2
+[workspace]

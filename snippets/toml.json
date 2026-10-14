@@ -1,0 +1,53 @@
+{
+  "Frontier project config (frontier.toml)": {
+    "prefix": "frontier-toml",
+    "description": "A project frontier.toml (frontier-config.schema.json): storage, server, compute, slurm and policy sections; keys locked by the system file are reported by `frontier config`",
+    "body": [
+      "[storage]",
+      "datasets_dir = \"${1:datasets}\"",
+      "runs_dir = \"${2:runs}\"",
+      "",
+      "[server]",
+      "bind = \"${3:127.0.0.1:8080}\"",
+      "",
+      "[compute]",
+      "default_target = \"${4|local,runpod,ssh,slurm,k8s|}\"",
+      "",
+      "[slurm]",
+      "default_site = \"${5:}\"",
+      "",
+      "[policy]",
+      "allow_cloud_targets = [${6:\"local\", \"ssh\", \"slurm\"}]",
+      "",
+      "[policy.ai]",
+      "data_leaves_site = false",
+      "allowed_providers = [\"local\"]$0"
+    ]
+  },
+  "Frontier plugin manifest (plugin.toml)": {
+    "prefix": "frontier-plugin",
+    "description": "A plugin.toml (plugin-manifest.schema.json) for a connector, exporter or importer plugin",
+    "body": [
+      "schema = 1",
+      "id = \"${1:my-connector}\"",
+      "kind = \"${2|connector,exporter,importer|}\"",
+      "name = \"${3:My solver}\"",
+      "summary = \"${4:What it reads or writes}\"",
+      "version = \"${5:0.1.0}\"",
+      "data_model_version = \"${6:1.1}\"",
+      "vendor = \"${7:}\"",
+      "formats = [${8:\"my-format\"}]",
+      "maturity = \"${9|planned,implemented-unverified-live,verified-synthetic,verified-public-sample,exporter+reader|}\"",
+      "licence = \"Apache-2.0\"",
+      "category = \"${10|solver,file-format,cloud-service,exporter,importer,other|}\"",
+      "tags = []",
+      "requires = []",
+      "",
+      "[connectors]",
+      "${1:my-connector} = \"${11:my_package.connector:MyConnector}\"",
+      "",
+      "[author]",
+      "name = \"${12:Your name}\"$0"
+    ]
+  }
+}
