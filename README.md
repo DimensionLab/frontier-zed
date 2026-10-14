@@ -9,14 +9,14 @@ vendored: the extension is configuration plus a small WebAssembly shim that laun
 program from your own Python environment, and the schemas are the public specification
 (CC-BY-4.0).
 
-| Piece | What you get | Needs |
-|-------|--------------|-------|
-| Schema associations | Completion, hover and diagnostics for training configs, RunSpecs, JobSpecs, data-prep recipes, pipelines, hub entries and benchmark specs, through Zed's built-in `json-language-server` and `yaml-language-server` | one settings block (below) |
-| Bundled schemas | The nine Frontier JSON Schemas in `schemas/`, identical to `spec/schemas/` in the frontier-format repository | nothing |
-| Snippets | `frontier-train`, `frontier-train-transient`, `frontier-runspec`, `frontier-runspec-pipeline`, `frontier-jobspec`, `frontier-hub-entry`, `frontier-benchmark`, `frontier-site` (YAML); `frontier-recipe`, `frontier-step`, `frontier-pipeline`, `frontier-runspec` (JSON); `frontier-toml`, `frontier-plugin` (TOML) | nothing; TOML snippets need the TOML extension |
-| Context server `frontier` | Frontier's MCP server in the agent panel: `dataset.*`, `version.*`, `quality.*`, `judge.*`, `prep.*` tools and the `frontier://datasets`, `frontier://dataset/{name}/card`, `frontier://dataset/{name}/provenance`, `frontier://policy` resources | a Python environment with Frontier's `frontier-agent` package installed |
-| Skills | `frontier-diagnose-dataset`, `frontier-cleaning-recipe`, `frontier-split-leakage` for Zed's agent (the Pi package's prompts, in Zed's skill format) | copy or symlink into `~/.agents/skills/` |
-| Icon theme | "Frontier Minimal": file icons for Frontier files, drawn with `currentColor` | opt-in; see Icons |
+| Piece                     | What you get                                                                                                                                                                                                                                                                                                         | Needs                                                                   |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| Schema associations       | Completion, hover and diagnostics for training configs, RunSpecs, JobSpecs, data-prep recipes, pipelines, hub entries and benchmark specs, through Zed's built-in `json-language-server` and `yaml-language-server`                                                                                                  | one settings block (below)                                              |
+| Bundled schemas           | The nine Frontier JSON Schemas in `schemas/`, identical to `spec/schemas/` in the frontier-format repository                                                                                                                                                                                                         | nothing                                                                 |
+| Snippets                  | `frontier-train`, `frontier-train-transient`, `frontier-runspec`, `frontier-runspec-pipeline`, `frontier-jobspec`, `frontier-hub-entry`, `frontier-benchmark`, `frontier-site` (YAML); `frontier-recipe`, `frontier-step`, `frontier-pipeline`, `frontier-runspec` (JSON); `frontier-toml`, `frontier-plugin` (TOML) | nothing; TOML snippets need the TOML extension                          |
+| Context server `frontier` | Frontier's MCP server in the agent panel: `dataset.*`, `version.*`, `quality.*`, `judge.*`, `prep.*` tools and the `frontier://datasets`, `frontier://dataset/{name}/card`, `frontier://dataset/{name}/provenance`, `frontier://policy` resources                                                                    | a Python environment with Frontier's `frontier-agent` package installed |
+| Skills                    | `frontier-diagnose-dataset`, `frontier-cleaning-recipe`, `frontier-split-leakage` for Zed's agent (the Pi package's prompts, in Zed's skill format)                                                                                                                                                                  | copy or symlink into `~/.agents/skills/`                                |
+| Icon theme                | "Frontier Minimal": file icons for Frontier files, drawn with `currentColor`                                                                                                                                                                                                                                         | opt-in; see Icons                                                       |
 
 Screenshots: `docs/screenshots/zed-schema-diagnostics.png` and
 `docs/screenshots/zed-context-server.png` (placeholders until the first release is captured
@@ -24,8 +24,8 @@ in a real Zed; see Status).
 
 ## Install
 
-**Dev extension (now).** In Zed run `zed: install dev extension` (or *Extensions* →
-*Install Dev Extension*) and pick this directory (`tools/frontier-zed` in a Frontier
+**Dev extension (now).** In Zed run `zed: install dev extension` (or _Extensions_ →
+_Install Dev Extension_) and pick this directory (`tools/frontier-zed` in a Frontier
 checkout, or a clone of `DimensionLab/frontier-zed`). Zed compiles the Rust crate itself; it
 needs `rustup` with the `wasm32-wasip2` target, which Zed adds when it is missing. To build
 by hand:
@@ -40,7 +40,7 @@ so `cargo build --workspace` at the repository root never touches it. Inside the
 the artifact lands in `dist/target/wasm32-wasip2/release/frontier_zed.wasm` (the root
 `.cargo/config.toml` sets the target directory); in a standalone clone, in `target/`.
 
-**Extension registry (later).** Once published, *Extensions* → search "Frontier". The
+**Extension registry (later).** Once published, _Extensions_ → search "Frontier". The
 registry submission is a pull request to `zed-industries/extensions` that adds this
 repository as a git submodule and an entry in `extensions.toml`; it is not done yet.
 
@@ -51,15 +51,15 @@ extension manifests, so one settings block is needed. Copy
 [`settings/zed-settings.json`](settings/zed-settings.json) into your user settings
 (`zed: open settings`) or into a project's `.zed/settings.json`. It maps:
 
-| Pattern | Schema |
-|---------|--------|
-| `*.frontier.yaml`, `*.train.yaml`, `**/frontier-train/configs/*.yaml` | `frontier-train-config` |
-| `*.runspec.yaml`, `runspec.yaml`, `*.runspec.json` | `runspec` |
-| `*.jobspec.yaml`, `jobspec.yaml`, `*.jobspec.json` | `jobspec` |
-| `*.recipe.json`, `recipe.json` | `recipe` (each step's `params` is tied to its `op`) |
-| `pipeline.json`, `*.pipeline.json` | `pipeline-v1` |
-| `*.hub.yaml`, `**/frontier_hub/catalog/*/*.yaml` | `hub-entry` |
-| `*.benchmark.yaml`, `**/frontier_eval/benchmarks/*.yaml` | `benchmark-spec` |
+| Pattern                                                               | Schema                                              |
+| --------------------------------------------------------------------- | --------------------------------------------------- |
+| `*.frontier.yaml`, `*.train.yaml`, `**/frontier-train/configs/*.yaml` | `frontier-train-config`                             |
+| `*.runspec.yaml`, `runspec.yaml`, `*.runspec.json`                    | `runspec`                                           |
+| `*.jobspec.yaml`, `jobspec.yaml`, `*.jobspec.json`                    | `jobspec`                                           |
+| `*.recipe.json`, `recipe.json`                                        | `recipe` (each step's `params` is tied to its `op`) |
+| `pipeline.json`, `*.pipeline.json`                                    | `pipeline-v1`                                       |
+| `*.hub.yaml`, `**/frontier_hub/catalog/*/*.yaml`                      | `hub-entry`                                         |
+| `*.benchmark.yaml`, `**/frontier_eval/benchmarks/*.yaml`              | `benchmark-spec`                                    |
 
 `settings/zed-settings.json` points at the published URLs
 (`https://dimensionlab.org/schemas/<name>.schema.json`). Until those URLs are live, or when
@@ -132,7 +132,7 @@ not as a context server.
 server; the judge backend the tools use is chosen there, not by the model Zed's panel runs.
 
 The `frontier` CLI is not required by the extension. `frontier` on your PATH is what the
-*Open in Zed* story below assumes, and what `frontier prep` needs to run recipes.
+_Open in Zed_ story below assumes, and what `frontier prep` needs to run recipes.
 
 ## Skills (prompt templates)
 
@@ -165,14 +165,14 @@ own file-kind glyphs.
 ## Open in Zed
 
 Frontier's app and TUI hand heavy editing to Zed through Zed's CLI (`zed`, installed from
-Zed's *Install CLI* command). The forms, from Zed's CLI reference:
+Zed's _Install CLI_ command). The forms, from Zed's CLI reference:
 
-| Action | Command Frontier runs or shows |
-|--------|--------------------------------|
-| Open a file at a position | `zed /abs/path/file.yaml:LINE:COL` (1-based; `:LINE` alone works) |
-| Open a run's artifact directory next to the current workspace | `zed --add /abs/path/runs/<id>` |
-| Compare two configs or recipe versions | `zed --diff /abs/old.yaml /abs/new.yaml` (repeatable for several pairs) |
-| Wait for the editor to close (scripts, `$EDITOR`) | `zed --wait /abs/path` |
+| Action                                                        | Command Frontier runs or shows                                          |
+| ------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| Open a file at a position                                     | `zed /abs/path/file.yaml:LINE:COL` (1-based; `:LINE` alone works)       |
+| Open a run's artifact directory next to the current workspace | `zed --add /abs/path/runs/<id>`                                         |
+| Compare two configs or recipe versions                        | `zed --diff /abs/old.yaml /abs/new.yaml` (repeatable for several pairs) |
+| Wait for the editor to close (scripts, `$EDITOR`)             | `zed --wait /abs/path`                                                  |
 
 On the desktop app the command is spawned directly; on the web app the server reports a
 local path for the artifact (mounted share) and the UI shows the command to copy, because no
