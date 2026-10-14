@@ -812,6 +812,49 @@
       "title": "UnfreezeStep",
       "type": "object"
     },
+    "ForecastEvalConfig": {
+      "description": "Multi-horizon forecasting of signal datasets (``frontier_train.transient.forecast``):\nvalidation forecasts ``horizon`` steps from every ``origin_stride``-th origin, selects the\ncheckpoint on their normalised MAE and writes split-conformal intervals at ``1 - alpha``\nfrom the validation residuals (``conformal.json``, served with the forecasts).",
+      "properties": {
+        "horizon": {
+          "default": 6,
+          "minimum": 1,
+          "title": "Horizon",
+          "type": "integer"
+        },
+        "origin_stride": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Origin Stride",
+          "type": "integer"
+        },
+        "max_origins": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 20000,
+          "title": "Max Origins"
+        },
+        "alpha": {
+          "default": 0.1,
+          "exclusiveMaximum": 1.0,
+          "exclusiveMinimum": 0.0,
+          "title": "Alpha",
+          "type": "number"
+        },
+        "batch_size": {
+          "default": 1024,
+          "title": "Batch Size",
+          "type": "integer"
+        }
+      },
+      "title": "ForecastEvalConfig",
+      "type": "object"
+    },
     "LeadConfig": {
       "description": "Lead time Δ in units of (strided) steps. ``fixed``: always ``max``. ``random``: drawn\nuniformly from 1..``max`` per training pair (\"all2all\" lead-time conditioning, the model is\ntold Δ and can be queried at any of them).",
       "properties": {
@@ -870,6 +913,17 @@
           "default": true,
           "title": "Spectral",
           "type": "boolean"
+        },
+        "forecast": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ForecastEvalConfig"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
         }
       },
       "title": "RolloutEvalConfig",

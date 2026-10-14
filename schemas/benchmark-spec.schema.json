@@ -3,6 +3,48 @@
   "$id": "https://dimensionlab.org/schemas/benchmark-spec.schema.json",
   "title": "BenchmarkSpec",
   "$defs": {
+    "ForecastOptions": {
+      "description": "A `task: rollout` spec with this block scores signal forecasts from many origins\n(`frontier_eval.signals`): horizon-wise error per channel against persistence, conformal\ninterval coverage and latency per update.",
+      "properties": {
+        "targets": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Targets"
+        },
+        "steps": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Steps"
+        },
+        "time_units": {
+          "default": "s",
+          "title": "Time Units",
+          "type": "string"
+        }
+      },
+      "title": "ForecastOptions",
+      "type": "object"
+    },
     "Reference": {
       "properties": {
         "model": {
@@ -258,6 +300,17 @@
       ],
       "default": null
     },
+    "forecast": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ForecastOptions"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
     "tier_direction": {
       "anyOf": [
         {
@@ -289,7 +342,10 @@
     "loads": {
       "anyOf": [
         {
-          "const": "airfoil2d",
+          "enum": [
+            "airfoil2d",
+            "heatsink"
+          ],
           "type": "string"
         },
         {

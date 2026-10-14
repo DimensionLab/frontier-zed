@@ -1927,6 +1927,16 @@
       "description": "",
       "additionalProperties": false,
       "properties": {
+        "mean_outlier_action": {
+          "default": "fail",
+          "description": "Severity of dataset-wide robust mean outliers. Use warn for measured sensor series with seasonal or operational shifts; finite-value, continuity and split checks remain blocking. The policy is recorded with each outlier assertion.",
+          "enum": [
+            "fail",
+            "warn"
+          ],
+          "title": "Mean Outlier Action",
+          "type": "string"
+        },
         "write_report": {
           "default": true,
           "description": "Write quality/report.json and report.html.",

@@ -1232,6 +1232,13 @@
           "default": true,
           "title": "Convertible",
           "type": "boolean"
+        },
+        "members": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Members",
+          "type": "array"
         }
       },
       "required": [
